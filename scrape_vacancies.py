@@ -5,8 +5,7 @@ import json
 from aiofiles import open as aio_open
 from glob import glob
 
-
-text_filter = '"Data Engineer" OR "ML Engineer" OR "ETL Developer"'
+text_filter = '"Data Engineer" OR "ML Engineer" OR "ETL Developer" OR "BI Engineer"'
 pagination_folder = './docs/pagination'
 vacancies_folder = './docs/vacancies'
 sleep_duration = 0.25
@@ -38,17 +37,14 @@ def get_headers():
 
 
 async def scrape_vacancies():
-    i = 0
     for file in glob(f"{pagination_folder}/*.json"):
         async with aio_open(file, encoding='utf8') as f:
             json_dict = json.loads(await f.read())
-        vac_count = json_dict['found']
         tasks = []
         for vac in json_dict['items']:
             tasks.append(scrape_vacancy(vac))
         await asyncio.gather(*tasks)
-        i += len(tasks)
-        print(f'Processed {i} of {vac_count} vacancies')
+        print(f'Processed {len(tasks)} vacancies')
     print('Vacancies scraped')
 
 
