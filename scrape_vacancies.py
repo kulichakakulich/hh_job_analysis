@@ -9,13 +9,13 @@ from glob import glob
 text_filter = '"Data Engineer" OR "ML Engineer" OR "ETL Developer"'
 pagination_folder = './docs/pagination'
 vacancies_folder = './docs/vacancies'
-sleep_duration = 0.15
+sleep_duration = 0.25
 
 
 async def get_page(text, pg=0):
     params = {
         'text': text,
-        'area': 2,
+        'area': [2, 4],
         'page': pg,
         'per_page': 100
     }
@@ -28,7 +28,7 @@ async def get_page(text, pg=0):
 
 async def save_json(data, filename):
     async with aio_open(filename, mode='w', encoding='utf8') as f:
-        await f.write(json.dumps(data, ensure_ascii=False))
+        await f.write(data)
 
 
 def get_headers():
@@ -66,7 +66,7 @@ async def scrape_pages():
         page_dict = await get_page(text_filter, page)
 
         filename = f"{pagination_folder}/{len(glob(f'{pagination_folder}/*.json'))}.json"
-        await save_json(page_dict, filename)
+        await save_json(json.dumps(page_dict, ensure_ascii=False), filename)
 
         if (page_dict['pages'] - page) <= 1:
             break
