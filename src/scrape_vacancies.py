@@ -5,7 +5,9 @@ import json
 from aiofiles import open as aio_open
 from glob import glob
 
-text_filter = '"Data Engineer" OR "ML Engineer" OR "ETL Developer" OR "BI Engineer"'
+from src.additional.personal_data import text_filter
+
+
 pagination_folder = './docs/pagination'
 vacancies_folder = './docs/vacancies'
 sleep_duration = 0.25

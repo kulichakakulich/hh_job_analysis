@@ -3,7 +3,8 @@ from pathlib import Path
 import pandas as pd
 import sqlalchemy
 from src.additional.gen_bd import create_database
-from src.additional.personal_data import username, password
+import re
+from src.additional.personal_data import username, password, db_name, db_host, db_port
 
 
 def load_vacancy_json(file_path: str):
@@ -11,11 +12,12 @@ def load_vacancy_json(file_path: str):
         json_text = f.read()
     json_dict = json.loads(json_text)
 
+    row = re.sub(r'<.*?>|[^\w ]', ' ', str(json_dict['description']).lower())
     vacancy = {
         'id': int(json_dict['id']),
         'name': json_dict['name'],
         'experience': json_dict['experience']['name'],
-        'description': json_dict['description'],
+        'description': row,
         'company_id': int(json_dict['employer']['id']),
     }
 
@@ -60,11 +62,7 @@ if __name__ == '__main__':
     df_skill = pd.DataFrame(skills)
     print('Data frames created')
 
-    host = 'localhost'
-    port = 5432
-    database = 'data_hh'
-
-    engine = sqlalchemy.create_engine(f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}')
+    engine = sqlalchemy.create_engine(f'postgresql+psycopg2://{username}:{password}@{db_host}:{db_port}/{db_name}')
     with engine.connect() as conn:
         transaction = conn.begin()
         print('Database connection established')
