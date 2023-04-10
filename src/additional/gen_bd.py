@@ -2,9 +2,11 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
-def create_database(username, password):
+def create_database(db_host, db_name, username, password):
     try:
-        with psycopg2.connect(user=f"{username}", password=f"{password}") as conn:
+
+        with psycopg2.connect(host=f"{db_host}", database=f"{db_name}", user=f"{username}",
+                              password=f"{password}", port="5432") as conn:
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
             cursor = conn.cursor()

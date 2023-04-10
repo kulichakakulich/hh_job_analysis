@@ -5,6 +5,7 @@ import json
 from aiofiles import open as aio_open
 from glob import glob
 import os
+
 from additional.gen_bd import create_database
 from additional.personal_data import *
 from connect_bd import connect_database
@@ -76,9 +77,9 @@ async def main():
         os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
-    # await asyncio.sleep(10)
-    # create_database(username, password)
-    # connect_database()
+    await asyncio.sleep(10)
+    create_database(db_host, db_name, username, password)
+    connect_database()
 
 if __name__ == '__main__':
     asyncio.run(main())

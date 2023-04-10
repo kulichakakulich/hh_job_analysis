@@ -4,4 +4,4 @@ docs/
 .idea
 hh_j
 src/additional/__pycache__/
-src/start.sh
+files/start.sh

@@ -5,7 +5,7 @@ vacancies_folder = './docs/vacancies'
 
 username = 'postgres'
 password = 'postgres'
-db_host = 'localhost'
+db_host = 'db'
 db_port = 5432
 db_name = 'data_hh'
 
