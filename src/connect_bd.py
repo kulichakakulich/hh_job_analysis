@@ -2,9 +2,8 @@ import json
 from pathlib import Path
 import pandas as pd
 import sqlalchemy
-from src.additional.gen_bd import create_database
 import re
-from src.additional.personal_data import username, password, db_name, db_host, db_port
+from additional.personal_data import username, password, db_name, db_host, db_port, vacancies_folder
 
 
 def load_vacancy_json(file_path: str):
@@ -42,10 +41,9 @@ def load_vacancy_json(file_path: str):
     return vacancy, company, skills
 
 
-if __name__ == '__main__':
-    # create_database(username, password)
+def connect_database():
 
-    vacancy_path = Path('../docs/vacancies')
+    vacancy_path = Path(vacancies_folder)
     vacancy_files = vacancy_path.glob('*.json')
 
     vacancies = []

@@ -4,13 +4,10 @@ import fake_useragent
 import json
 from aiofiles import open as aio_open
 from glob import glob
-
-from src.additional.personal_data import text_filter
-
-
-pagination_folder = './docs/pagination'
-vacancies_folder = './docs/vacancies'
-sleep_duration = 0.25
+import os
+from additional.gen_bd import create_database
+from additional.personal_data import *
+from connect_bd import connect_database
 
 
 async def get_page(text, pg=0):
@@ -73,9 +70,15 @@ async def scrape_pages():
 
 
 async def main():
+    if not os.path.exists(pagination_folder):
+        os.mkdir(pagination_folder)
+    if not os.path.exists(vacancies_folder):
+        os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
-
+    # await asyncio.sleep(10)
+    # create_database(username, password)
+    # connect_database()
 
 if __name__ == '__main__':
     asyncio.run(main())

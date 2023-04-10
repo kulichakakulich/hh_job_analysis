@@ -1,0 +1,7 @@
+files/
+docs/
+.vscode
+.idea
+hh_j
+src/additional/__pycache__/
+src/start.sh
