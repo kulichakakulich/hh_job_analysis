@@ -6,7 +6,6 @@ from aiofiles import open as aio_open
 from glob import glob
 import os
 
-from additional.gen_bd import create_database
 from additional.personal_data import *
 from connect_bd import connect_database
 
@@ -78,7 +77,6 @@ async def main():
     await scrape_pages()
     await scrape_vacancies()
     await asyncio.sleep(10)
-    create_database(db_host, db_name, username, password)
     connect_database()
 
 if __name__ == '__main__':
