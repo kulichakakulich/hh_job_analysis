@@ -30,3 +30,7 @@ connect_bd = BashOperator(
     bash_command='python /path/to/connect_bd.py',
     dag=dag
 )
+
+scrape_vacancies >> connect_bd
+
+dag.save()

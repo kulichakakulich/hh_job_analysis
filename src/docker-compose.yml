@@ -38,6 +38,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./path/airflow.cfg:/usr/local/airflow/airflow.cfg
       - ./dags:/opt/airflow/dags
     depends_on:
       - db
