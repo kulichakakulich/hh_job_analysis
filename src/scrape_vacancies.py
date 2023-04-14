@@ -36,14 +36,15 @@ def get_headers():
 
 
 async def scrape_vacancies():
-    for file in glob(f"{pagination_folder}/*.json"):
-        async with aio_open(file, encoding='utf8') as f:
-            json_dict = json.loads(await f.read())
-        tasks = []
-        for vac in json_dict['items']:
-            tasks.append(scrape_vacancy(vac))
-        await asyncio.gather(*tasks)
-        print(f'Processed {len(tasks)} vacancies')
+    files = glob(f"{pagination_folder}/*.json")
+    latest_file = max(files, key=os.path.getctime)
+    async with aio_open(latest_file, encoding='utf8') as f:
+        json_dict = json.loads(await f.read())
+    tasks = []
+    for vac in json_dict['items']:
+        tasks.append(scrape_vacancy(vac))
+    await asyncio.gather(*tasks)
+    print(f'Processed {len(tasks)} vacancies')
     print('Vacancies scraped')
 
 
@@ -76,8 +77,8 @@ async def main():
         os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
-    await asyncio.sleep(10)
-    connect_database()
+    # await asyncio.sleep(10)
+    # connect_database()
 
 if __name__ == '__main__':
     asyncio.run(main())

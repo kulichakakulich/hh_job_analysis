@@ -3,10 +3,11 @@ from pathlib import Path
 import pandas as pd
 import sqlalchemy
 import re
+import datetime
 from additional.personal_data import username, password, db_name, db_host, db_port, vacancies_folder
 
 
-def load_vacancy_json(file_path: str):
+def load_vacancy_json(file_path):
     with open(file_path, encoding='utf8') as f:
         json_text = f.read()
     json_dict = json.loads(json_text)
@@ -18,6 +19,7 @@ def load_vacancy_json(file_path: str):
         'experience': json_dict['experience']['name'],
         'description': row,
         'company_id': int(json_dict['employer']['id']),
+        'date': datetime.date.today()
     }
 
     company = {
@@ -65,10 +67,15 @@ def connect_database():
         transaction = conn.begin()
         print('Database connection established')
         try:
-            df_vacancy.to_sql('vacancy', engine, if_exists='replace', index=False)
+            existing_ids = pd.read_sql('SELECT id FROM vacancy', conn)
+            new_vacancy = df_vacancy[~df_vacancy['id'].isin(existing_ids['id'])]
+            new_vacancy.to_sql('vacancy', engine, if_exists='append', index=False)
             df_company.to_sql('company', engine, if_exists='replace', index=False)
             df_skill.to_sql('skill', engine, if_exists='replace', index=False)
             transaction.commit()
+        except pd.io.sql.DatabaseError:
+            print("Table 'vacancy' does not exist. Creating table...")
+            df_vacancy.to_sql('vacancy', engine, if_exists='replace', index=False)
         except Exception as E:
             print(E)
             transaction.rollback()
