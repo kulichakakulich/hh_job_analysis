@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: app.Dockerfile
     environment:
       - DB_HOST=db
       - DB_PORT=5432
@@ -13,6 +13,7 @@ services:
       - DB_PASSWORD=postgres
     depends_on:
       - db
+      - airflow
 
   db:
     container_name: pgdb
@@ -26,6 +27,21 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  airflow:
+    container_name: airflow
+    image: apache/airflow:2.1.0
+    restart: always
+    environment:
+      - AIRFLOW_DATABASE_URI=postgresql+psycopg2://postgres:postgres@db/data_hh
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+    depends_on:
+      - db
+
 
   pgadmin:
     container_name: pgadmin4
