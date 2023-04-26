@@ -1,1 +1,1 @@
-CREATE DATABASE data_hh OWNER postgres;
+CREATE DATABASE data_hh OWNER airflow;

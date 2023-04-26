@@ -4,7 +4,17 @@ import pandas as pd
 import sqlalchemy
 import re
 import datetime
-from additional.personal_data import username, password, db_name, db_host, db_port, vacancies_folder
+
+# from tasks.additional.personal_data import username, password, db_name, db_host, db_port, vacancies_folder
+
+pagination_folder = '../../docs/'
+vacancies_folder = '../../docs/vacancies'
+
+username = 'airflow'
+password = 'airflow'
+db_host = 'postgres'
+db_port = 5432
+db_name = 'data_hh'
 
 
 def load_vacancy_json(file_path):
@@ -44,7 +54,6 @@ def load_vacancy_json(file_path):
 
 
 def connect_database():
-
     vacancy_path = Path(vacancies_folder)
     vacancy_files = vacancy_path.glob('*.json')
 

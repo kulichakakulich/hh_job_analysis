@@ -7,7 +7,6 @@ from glob import glob
 import os
 
 from additional.personal_data import *
-from connect_bd import connect_database
 
 
 async def get_page(text, pg=0):
@@ -77,8 +76,6 @@ async def main():
         os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
-    # await asyncio.sleep(10)
-    # connect_database()
 
 if __name__ == '__main__':
     asyncio.run(main())

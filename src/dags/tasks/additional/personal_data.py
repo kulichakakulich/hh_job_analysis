@@ -1,11 +1,11 @@
 text_filter = '"data engineer" OR "ml engineer" OR "etl developer" OR "bi engineer"'
 
-pagination_folder = './docs/'
-vacancies_folder = './docs/vacancies'
+pagination_folder = '../../docs/'
+vacancies_folder = '../../docs/vacancies'
 
-username = 'postgres'
-password = 'postgres'
-db_host = 'db'
+username = 'airflow'
+password = 'airflow'
+db_host = 'postgres'
 db_port = 5432
 db_name = 'data_hh'
 

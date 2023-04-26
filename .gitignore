@@ -3,5 +3,8 @@ docs/
 .vscode
 .idea
 hh_j
-src/additional/__pycache__/
+src/dags/tasks/additional/__pycache__/
+src/dags/__pycache__/
+src/dags/tasks/__pycache__/
 files/start.sh
+src/logs
