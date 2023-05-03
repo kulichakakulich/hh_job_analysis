@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 
-from tasks.connect_bd import connect_database
+from connect_bd import connect_database
 
 default_args = {
     'owner': 'airflow',
@@ -23,7 +23,7 @@ with DAG(
 ) as dag:
     scrape_vacancies = BashOperator(
         task_id='scrape_vacancies',
-        bash_command='python /opt/airflow/dags/tasks/scrape_vacancies.py',
+        bash_command='python /opt/airflow/dags/scrape_vacancies.py',
         dag=dag
     )
     connect_bd = PythonOperator(

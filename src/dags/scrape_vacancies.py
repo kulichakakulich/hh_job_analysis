@@ -6,8 +6,18 @@ from aiofiles import open as aio_open
 from glob import glob
 import os
 
-from additional.personal_data import *
+text_filter = '"data engineer" OR "ml engineer" OR "etl developer" OR "bi engineer"'
 
+pagination_folder = '/opt/airflow/data'
+vacancies_folder = '/opt/airflow/data/vac'
+
+username = 'airflow'
+password = 'airflow'
+db_host = 'postgres'
+db_port = 5432
+db_name = 'data_hh'
+
+sleep_duration = 0.25
 
 async def get_page(text, pg=0):
     params = {
@@ -70,10 +80,10 @@ async def scrape_pages():
 
 
 async def main():
-    if not os.path.exists(pagination_folder):
-        os.mkdir(pagination_folder)
-    if not os.path.exists(vacancies_folder):
-        os.mkdir(vacancies_folder)
+    # if not os.path.exists(pagination_folder):
+    #     os.mkdir(pagination_folder)
+    # if not os.path.exists(vacancies_folder):
+    #     os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
 

@@ -7,8 +7,8 @@ import datetime
 
 # from tasks.additional.personal_data import username, password, db_name, db_host, db_port, vacancies_folder
 
-pagination_folder = '../../docs/'
-vacancies_folder = '../../docs/vacancies'
+pagination_folder = '/opt/airflow/data'
+vacancies_folder = '/opt/airflow/data/vac'
 
 username = 'airflow'
 password = 'airflow'
