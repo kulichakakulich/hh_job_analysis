@@ -6,18 +6,8 @@ from aiofiles import open as aio_open
 from glob import glob
 import os
 
-text_filter = '"data engineer" OR "ml engineer" OR "etl developer" OR "bi engineer"'
+from add.settings import text_filter, pagination_folder, vacancies_folder
 
-pagination_folder = '/opt/airflow/data'
-vacancies_folder = '/opt/airflow/data/vac'
-
-username = 'airflow'
-password = 'airflow'
-db_host = 'postgres'
-db_port = 5432
-db_name = 'data_hh'
-
-sleep_duration = 0.25
 
 async def get_page(text, pg=0):
     params = {
@@ -63,7 +53,7 @@ async def scrape_vacancy(vac):
             data = await response.text()
     filename = f"{vacancies_folder}/{vac['id']}.json"
     await save_json(data, filename)
-    await asyncio.sleep(sleep_duration)
+    await asyncio.sleep(0.25)
 
 
 async def scrape_pages():
@@ -75,17 +65,14 @@ async def scrape_pages():
 
         if (page_dict['pages'] - page) <= 1:
             break
-        await asyncio.sleep(sleep_duration)
+        await asyncio.sleep(0.25)
     print('Pages scraped')
 
 
 async def main():
-    # if not os.path.exists(pagination_folder):
-    #     os.mkdir(pagination_folder)
-    # if not os.path.exists(vacancies_folder):
-    #     os.mkdir(vacancies_folder)
     await scrape_pages()
     await scrape_vacancies()
+
 
 if __name__ == '__main__':
     asyncio.run(main())

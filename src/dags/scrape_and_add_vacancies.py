@@ -8,7 +8,7 @@ from connect_bd import connect_database
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2023, 4, 26),
+    'start_date': datetime(2023, 5, 4),
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
@@ -18,7 +18,7 @@ default_args = {
 with DAG(
         'scrape_and_add_vacancies',
         default_args=default_args,
-        schedule_interval=timedelta(days=1),
+        schedule='@daily',
         catchup=False
 ) as dag:
     scrape_vacancies = BashOperator(

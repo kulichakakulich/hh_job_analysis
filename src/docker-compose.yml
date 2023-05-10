@@ -100,6 +100,15 @@ services:
     depends_on:
       - postgres
 
+  metabase:
+    container_name: metabase
+    image: metabase/metabase:latest
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
